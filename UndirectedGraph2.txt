@@ -1,0 +1,26 @@
+9	16	//num vertices, num edges
+0	A	15	150
+1	B	50	175
+2	C	50	100
+3	D	100	75
+4	E	125	125
+5	F	137	225
+6	G	250	75
+7	H	225	25
+8	I	275	200
+0	0	1	weight	6
+1	0	2	weight	4
+2	0	8	weight	7
+3	1	2	weight	8
+4	1	4	weight	7
+5	1	5	weight	2
+6	2	3	weight	4
+7	2	4	weight	6
+8	2	5	weight	5
+9	3	4	weight	3
+10	3	7	weight	2
+11	4	6	weight	2
+12	4	8	weight	9
+13	5	7	weight	10
+14	5	8	weight	2
+15	6	8	weight	5

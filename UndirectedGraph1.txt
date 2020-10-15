@@ -1,0 +1,38 @@
+13	24			
+0	A	150	30	
+1	B	225	60	
+2	C	300	90	
+3	D	60	110	
+4	E	140	110	
+5	F	215	125	
+6	G	280	160	
+7	H	120	200	
+8	I	200	215	
+9	J	30	250	
+10	K	250	280	
+11	L	175	300	
+12	M	225	337	
+0	0	1	weight	50
+1	0	3	weight	75
+2	0	4	weight	45
+3	1	2	weight	12
+4	1	4	weight	40
+5	1	5	weight	90
+6	1	7	weight	80
+7	2	5	weight	45
+8	2	6	weight	30
+9	3	4	weight	20
+10	3	7	weight	20
+11	3	9	weight	25
+12	4	7	weight	17
+13	5	6	weight	80
+14	5	8	weight	30
+15	6	8	weight	50
+16	6	10	weight	60
+17	7	8	weight	50
+18	7	9	weight	75
+19	7	11	weight	90
+20	8	11	weight	65
+21	9	11	weight	85
+22	10	11	weight	55
+23	11	12	weight	80
