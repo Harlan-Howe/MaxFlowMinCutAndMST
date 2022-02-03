@@ -96,7 +96,7 @@ class DirectedGraph:
     def get_edges_from_u(self, u_id: int) -> List[Edge]:
         """
         :param u_index: the id number for a given vertex, u
-        :return: a list of edge id numbers for all edges that exit the vertex u. If there are no edges leaving this vertex,
+        :return: a list of all edges that exit the vertex u. If there are no edges leaving this vertex,
                 returns an empty list.
         """
         if self.edge_tables_dirty:
@@ -109,7 +109,7 @@ class DirectedGraph:
         """
         gets a list of id numbers for all the edges that head into v.
         :param v_id: the id number for a given vertex, v
-        :return: a list of the edge id numbers for all the edges that enter the vertex v. If there are no edges entering
+        :return: a list of all the edges that enter the vertex v. If there are no edges entering
                 this vertex, returns an empty list.
         """
         if self.edge_tables_dirty:
@@ -118,7 +118,7 @@ class DirectedGraph:
             return self.v_edge_table[v_id]
         return []
 
-    def get_edge_from_u_to_v(self, u_id: int, v_id: int) -> int:
+    def get_edge_id_from_u_to_v(self, u_id: int, v_id: int) -> int:
         """
         gets the edge_id of an edge from U to V, if any.
         :param u_id:
@@ -132,14 +132,25 @@ class DirectedGraph:
                 if self.E[edge_id][KEY_V] == v_id:
                     return edge_id
         return None
-
+    def get_edge_from_u_to_v(self, u_id: int, v_id: int) --> Edge:
+        """
+        gets the edge from U to V, if any.
+        :param u_id:
+        :param v_id:
+        :return: the edge from u -> v, if any, or None if not found.
+        """
+        edge_id = self.get_edge_id_from_u_to_v(u_id,v_id) 
+        if edge_id is None:
+            return None
+        return self.E[edge_id]
+    
     def get_vertex_for_id(self, v_id: int) -> Vertex:
         return self.V[v_id]
 
     def get_edge_for_id(self, e_id: int) -> Edge:
         return self.E[e_id]
 
-    def get_ID_for_vertex_with_label(self, label: str) -> id:
+    def get_ID_for_vertex_with_label(self, label: str) -> int:
         """
         gets the id number for a vertex with the given label. If no such vertex exists, returns None
         :param label: the label to search for
@@ -247,7 +258,7 @@ class DirectedGraph:
                                       center: Tuple[float, float],
                                       angle: float,
                                       window: np.ndarray,
-                                      color: Tuple[float, float, float] = (1.0, 1.0, 1.0)):
+                                      color: Tuple[float, float, float] = (1.0, 1.0, 1.0))-> None:
         """
         draws the given text rotated by the given amount, centered on the point given, into the window.
         :param: text - the string to print, expected to be short enough not to cause issues in window borders
