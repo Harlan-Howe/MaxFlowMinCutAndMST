@@ -132,7 +132,7 @@ class DirectedGraph:
                 if self.E[edge_id][KEY_V] == v_id:
                     return edge_id
         return None
-    def get_edge_from_u_to_v(self, u_id: int, v_id: int) --> Edge:
+    def get_edge_from_u_to_v(self, u_id: int, v_id: int) -> Edge:
         """
         gets the edge from U to V, if any.
         :param u_id:
