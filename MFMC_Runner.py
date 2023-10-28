@@ -4,9 +4,10 @@ from TypesAndConstants import *
 from DirectedGraphFile import DirectedGraph
 from MaxFlowMinCutSolverFile import MaxFlowMinCutSolver
 
+
 def main():
-    capacity:DirectedGraph = DirectedGraph(filename="DirectedGraph1.txt")
-    solver:MaxFlowMinCutSolver = MaxFlowMinCutSolver()
+    capacity: DirectedGraph = DirectedGraph(filename="DirectedGraph1.txt")
+    solver: MaxFlowMinCutSolver = MaxFlowMinCutSolver()
     flow, residual = solver.find_max_flow(capacity)
 
     S: List[int] = solver.find_reachable_vertices(residual)
@@ -18,8 +19,6 @@ def main():
 
     print(f"Nodes reachable from S: {S}")
     solver.display_graphs(capacity, flow, residual)
-
-
 
 
 # if this is the file you are telling to run, then call main().
