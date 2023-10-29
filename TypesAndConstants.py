@@ -5,6 +5,7 @@ KEY_COLOR = "color"
 KEY_U = "u"
 KEY_V = "v"
 
+
 class Vertex(TypedDict, total=False):
     KEY_LABEL: str
     KEY_LOCATION: Tuple[int, int]
@@ -16,4 +17,3 @@ class Edge(TypedDict, total=False):  # total = False means that you can still ha
     v: int
     capacity: int
     # add more, as needed.
-
