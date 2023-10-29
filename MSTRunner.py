@@ -11,8 +11,9 @@ def main():
     #
     # window = mst.draw_self(origin= (0,400),window=window,caption="Kruskal",color=(1.0,0.75,0.25))
 
-    cv2.imshow("MST",window)
+    cv2.imshow("MST", window)
     cv2.waitKey()
+
 
 # if this is the file you are telling to run, then call main().
 if __name__ == '__main__':
