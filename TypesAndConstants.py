@@ -16,4 +16,5 @@ class Edge(TypedDict, total=False):  # total = False means that you can still ha
     u: int
     v: int
     capacity: int
+    weight: int
     # add more, as needed.
