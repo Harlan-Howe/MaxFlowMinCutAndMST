@@ -69,7 +69,7 @@ class DirectedGraph:
                 else:
                     self.E[int(items[0])] = {KEY_U: int(items[1]), KEY_V: int(items[2])}
                     for i in range(3, len(items), 2):
-                        self.E[int(items[0])][items[i]] = int(items[i + 1])
+                        self.E[int(items[0])][items[i]] = int(items[i+1])
                         if items[i] not in self.additional_keys:
                             self.additional_keys.append(items[i])
                 count += 1
@@ -160,11 +160,36 @@ class DirectedGraph:
             return None
         return self.E[edge_id]
 
-    def get_vertex_for_id(self, v_id: int) -> Vertex:
-        return self.V[v_id]
+    def get_edge_for_id(self, e_id: int) -> Optional[Edge]:
+        """
+        finds the edge for the given id, or None if it is not in this graph.
+        :param e_id: the id we are searching for
+        :return: the corresponding edge, or None.
+        """
+        if e_id in self.E:
+            return self.E[e_id]
+        return None
+    
+    def get_id_for_edge(self, edge: Edge) -> int:
+        """
+        finds the id number for the given edge, or -1 if edge is not in this graph.
+        :param edge: the edge to find. (Searching by memory location, not content.)
+        :return: the index of the edge in the dictionary E, or -1 if not found.
+        """
+        for edge_id in self.E.keys():
+            if self.E[edge_id] == edge:
+                return edge_id
+        return -1
 
-    def get_edge_for_id(self, e_id: int) -> Edge:
-        return self.E[e_id]
+    def get_vertex_for_id(self, v_id: int) -> Optional[Vertex]:
+        """
+        finds the vertex for the given id, or None if there isn't one with that id in this graph.
+        :param v_id: the id we're looking for
+        :return: the Vertex, or None.
+        """
+        if v_id in self.V:
+            return self.V[v_id]
+        return None
 
     def get_id_for_vertex_with_label(self, label: str) -> int:
         """
@@ -195,6 +220,18 @@ class DirectedGraph:
 
         self.edge_tables_dirty = True  # the edge_tables will need an update before we use them.
 
+    def receive_edge(self, edge: Edge) -> None:
+        """
+        essentially an overload of add edge, this one adds a fully-built edge from another graph to this one
+        and sets the edge_tables_dirty flag. This edge will likely have a different id number in this graph
+        than it did in the source graph.
+        :param edge: the edge to add
+        :return: None
+        """
+        self.max_edge_id += 1
+        self.E[self.max_edge_id] = edge
+        self.edge_tables_dirty = True  # the edge_tables will need an update before we can use them.
+
     def draw_self(self, window: np.ndarray = None,
                   origin: Tuple[int, int] = (0, 0),
                   caption: str = None,
@@ -220,26 +257,26 @@ class DirectedGraph:
             v: Vertex = self.V[e[KEY_V]]
             dx: int = u[KEY_LOCATION][0] - v[KEY_LOCATION][0]
             dy: int = u[KEY_LOCATION][1] - v[KEY_LOCATION][1]
-            d: float = np.sqrt(dx ** 2 + dy ** 2)
+            d: float = np.sqrt(dx**2 + dy**2)
             # logging.info(f"u={u}\tv={v}\tdx={dx}\tdy={dy}\d={d}")
-            if d > 2 * self.VERTEX_RADIUS:
-                i: Tuple[float, float] = (dx / d, dy / d)
+            if d > 2*self.VERTEX_RADIUS:
+                i: Tuple[float, float] = (dx/d, dy/d)
                 j: Tuple[float, float] = (-i[1], i[0])
                 # logging.info(f"i={i}\tj={j}")
                 if color is None:
-                    line_color_to_draw: Tuple[float, float, float] = (random.randrange(25, 100) / 100,
-                                                                      random.randrange(25, 100) / 100,
-                                                                      random.randrange(25, 100) / 100)
+                    line_color_to_draw: Tuple[float, float, float] = (random.randrange(25, 100)/100,
+                                                                      random.randrange(25, 100)/100,
+                                                                      random.randrange(25, 100)/100)
                 else:
                     if u[KEY_COLOR] == v[KEY_COLOR]:
                         line_color_to_draw = color
                     else:
                         line_color_to_draw = cut_color
-                point_u = (int(origin[0] + u[KEY_LOCATION][0] - i[0] * self.VERTEX_RADIUS + j[0] * self.EDGE_OFFSET),
-                           int(origin[1] + u[KEY_LOCATION][1] - i[1] * self.VERTEX_RADIUS + j[1] * self.EDGE_OFFSET))
+                point_u = (int(origin[0]+u[KEY_LOCATION][0]-i[0]*self.VERTEX_RADIUS+j[0]*self.EDGE_OFFSET),
+                           int(origin[1]+u[KEY_LOCATION][1]-i[1]*self.VERTEX_RADIUS+j[1]*self.EDGE_OFFSET))
 
-                point_v = (int(origin[0] + v[KEY_LOCATION][0] + i[0] * self.VERTEX_RADIUS + j[0] * self.EDGE_OFFSET),
-                           int(origin[1] + v[KEY_LOCATION][1] + i[1] * self.VERTEX_RADIUS + j[1] * self.EDGE_OFFSET))
+                point_v = (int(origin[0]+v[KEY_LOCATION][0] + i[0] * self.VERTEX_RADIUS + j[0] * self.EDGE_OFFSET),
+                           int(origin[1]+v[KEY_LOCATION][1] + i[1] * self.VERTEX_RADIUS + j[1] * self.EDGE_OFFSET))
                 cv2.line(window, point_u, point_v, line_color_to_draw, 1)
 
                 # draw arrowheads
@@ -273,12 +310,12 @@ class DirectedGraph:
                        self.VERTEX_RADIUS, v[KEY_COLOR], -1)  # Fill
             cv2.circle(window, (origin[0] + v[KEY_LOCATION][0], origin[1] + v[KEY_LOCATION][1]),
                        self.VERTEX_RADIUS, (0.75, 0.75, 0.75))  # Stroke
-            cv2.putText(window, v[KEY_LABEL], (origin[0] + v[KEY_LOCATION][0] - 5, origin[1] + v[KEY_LOCATION][1] + 5),
+            cv2.putText(window, v[KEY_LABEL], (origin[0]+v[KEY_LOCATION][0]-5, origin[1]+v[KEY_LOCATION][1]+5),
                         cv2.FONT_HERSHEY_PLAIN, 1, (0, 0, 0), 1, cv2.LINE_AA)
 
-            # DRAW CAPTION
+        # DRAW CAPTION
             if caption is not None:
-                cv2.putText(window, caption, (origin[0], origin[1] + 15), cv2.FONT_HERSHEY_PLAIN, 1, (1.0, 1.0, 1.0), 1)
+                cv2.putText(window, caption, (origin[0], origin[1]+15), cv2.FONT_HERSHEY_PLAIN, 1, (1.0, 1.0, 1.0), 1)
 
         return window
 
@@ -311,16 +348,16 @@ class DirectedGraph:
         trimmed_canvas = canvas[nonzero_range_vertical[0][0] - 2:nonzero_range_vertical[0][-1] + 2,
                                 nonzero_range_horizontal[0][0] - 2:nonzero_range_horizontal[0][-1] + 2, :]
         rows, cols, colors = trimmed_canvas.shape
-        start_x = int(center[0] - cols / 2)
-        start_y = int(center[1] - rows / 2)
+        start_x = int(center[0]-cols/2)
+        start_y = int(center[1]-rows/2)
         if start_x < 0:
             trimmed_canvas = trimmed_canvas[:, -start_x:]
             start_x = 0
         if start_y < 0:
             trimmed_canvas = trimmed_canvas[-start_y:, :]
             start_y = 0
-        end_x = int(center[0] + cols / 2)
-        end_y = int(center[1] + rows / 2)
+        end_x = int(center[0]+cols / 2)
+        end_y = int(center[1]+rows / 2)
         mask = trimmed_canvas > 0
 
         # logging.info(f"text: '{text}'\tstart_x:{start_x}\tend_x:{end_x}\tstart_y:{start_y}\tend_y:{end_y}")

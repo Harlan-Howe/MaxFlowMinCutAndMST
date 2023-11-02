@@ -1,4 +1,4 @@
-25	49	// format: #_of_verticies /t #_of_edges
+25	48	// format: #_of_verticies /t #_of_edges
 0	a	60	60
 1	b	120	60
 2	c	180	60

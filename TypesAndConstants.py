@@ -1,10 +1,12 @@
-from typing import TypedDict, Tuple
-KEY_LABEL = "label"
-KEY_LOCATION = "location"
-KEY_COLOR = "color"
-KEY_U = "u"
-KEY_V = "v"
-
+from typing import TypedDict, Tuple, Final
+KEY_LABEL: Final[str] = "label"
+KEY_LOCATION: Final[str] = "location"
+KEY_COLOR: Final[str] = "color"
+KEY_U: Final[str] = "u"
+KEY_V: Final[str] = "v"
+KEY_CAPACITY: Final[str] = "capacity"
+KEY_WEIGHT: Final[str] = "weight"
+KEY_FLOW: Final[str] = "flow"
 
 class Vertex(TypedDict, total=False):
     KEY_LABEL: str
@@ -17,4 +19,6 @@ class Edge(TypedDict, total=False):  # total = False means that you can still ha
     v: int
     capacity: int
     weight: int
+    flow: int
+
     # add more, as needed.
