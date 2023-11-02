@@ -118,6 +118,7 @@ class MST:
         :return: the id of the vertex at the root of the tree containing x. This might be x, or another id.
         """
         # TODO K1: you write this method!
+        print ("Method find_root() has not been written yet.")
 
 
     def union(self, x_id: id, y_id: id) -> None:
@@ -131,7 +132,7 @@ class MST:
         # TODO K2: you write this method!
         # Note: you are joining the _roots_ of the disjoint tree for these vertices, not the vertices, themselves
         # (unless they _are_ the roots, of course).
-
+        print("Method union() has not been written yet.")
 
     def draw_self(self,
                   window: np.ndarray = None,
