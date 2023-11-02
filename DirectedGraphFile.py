@@ -236,7 +236,7 @@ class DirectedGraph:
                   origin: Tuple[int, int] = (0, 0),
                   caption: str = None,
                   color: Tuple[float, float, float] = None,
-                  cut_color: Tuple[float, float, float] = (0.8, 0.0, 0.5)) -> np.ndarray:
+                  cut_color: Tuple[float, float, float] = (1.0, 0.5, 0.85)) -> np.ndarray:
         """
         Draws this graph in the given window (or a new, 800 x 800 one), potentially with a caption
         :param window: the numpy Array in which to draw. Should be a (h x w x 3) np array, with values 0.0-1.0. (
